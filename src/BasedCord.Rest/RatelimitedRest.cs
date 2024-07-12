@@ -26,7 +26,7 @@ namespace BasedCord.Rest
             };
 
             httpClient.DefaultRequestHeaders.Add("Authorization", $"Bot {token}");
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("ModCore3 (https://github.com/Naamloos/ModCore)");
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("BasedCord (https://github.com/Naamloos/BasedCord)");
         }
 
         public async ValueTask<HttpResponseMessage> RequestAsync(HttpMethod method, string route, string url, object? body = null)

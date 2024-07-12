@@ -22,7 +22,7 @@ namespace BasedCord.Rest
         private JsonSerializerOptions JsonSerializerOptions;
         private ILogger _logger;
 
-        public DiscordRest(Action<DiscordRestConfiguration> configure, IServiceProvider services)
+        internal DiscordRest(Action<DiscordRestConfiguration> configure, IServiceProvider services)
         {
             Configuration = new DiscordRestConfiguration();
             configure(Configuration);

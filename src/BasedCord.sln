@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasedCord.Entities", "Based
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasedCord.ExampleBot", "BasedCord.ExampleBot\BasedCord.ExampleBot.csproj", "{AED97553-ADAF-4BA2-B436-D469709C0930}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasedCord.Interactions", "BasedCord.Interactions\BasedCord.Interactions.csproj", "{451621AC-516F-44AB-BC00-CB26E50A75F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AED97553-ADAF-4BA2-B436-D469709C0930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AED97553-ADAF-4BA2-B436-D469709C0930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AED97553-ADAF-4BA2-B436-D469709C0930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{451621AC-516F-44AB-BC00-CB26E50A75F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451621AC-516F-44AB-BC00-CB26E50A75F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451621AC-516F-44AB-BC00-CB26E50A75F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451621AC-516F-44AB-BC00-CB26E50A75F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,7 +15,7 @@ namespace BasedCord.ExampleBot.Events
 
         public async ValueTask HandleEvent(Ready data)
         {
-            
+            Console.WriteLine("Ready!");
         }
 
         public async ValueTask HandleEvent(Hello data)

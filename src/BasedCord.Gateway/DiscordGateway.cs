@@ -55,7 +55,7 @@ namespace BasedCord.Gateway
         private int retries = 0;
         private const int MAX_RETRIES = 5;
 
-        public DiscordGateway(Action<GatewayConfiguration> configure, IServiceProvider services)
+        internal DiscordGateway(Action<GatewayConfiguration> configure, IServiceProvider services)
         {
             this.services = services;
             logger = services.GetService<ILogger<DiscordGateway>>() ?? new Logger<DiscordGateway>(NullLoggerFactory.Instance);

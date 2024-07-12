@@ -22,5 +22,12 @@ namespace BasedCord.Gateway
             var type = typeof(T);
             subscribers.Add(type);
         }
+
+        internal List<Type> extensions { get; set; } = new List<Type>();
+        public void UseExtension<T>() where T : BaseExtension
+        {
+            var type = typeof(T);
+            extensions.Add(type);
+        }
     }
 }
