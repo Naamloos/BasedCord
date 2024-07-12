@@ -10,9 +10,11 @@ using BasedCord.Entities.Messages;
 using BasedCord.Entities.Serializer;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BasedCord.Rest
 {
+    // TODO fix rate limit routes, I don't think they're correct yet
     public class DiscordRest
     {
         private DiscordRestConfiguration Configuration;
@@ -32,7 +34,7 @@ namespace BasedCord.Rest
 
             RatelimitedRest = new RateLimitedRest(Configuration, Configuration.Token, JsonSerializerOptions);
 
-            _logger = services.GetService<ILogger<DiscordRest>>();
+            _logger = services.GetService<ILogger<DiscordRest>>() ?? new Logger<DiscordRest>(NullLoggerFactory.Instance);
         }
 
         public ValueTask<RestResponse<User>> GetCurrentUserAsync()

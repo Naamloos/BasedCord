@@ -16,6 +16,7 @@ using System.Net.WebSockets;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Channels;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BasedCord.Gateway
 {
@@ -57,7 +58,7 @@ namespace BasedCord.Gateway
         public DiscordGateway(Action<GatewayConfiguration> configure, IServiceProvider services)
         {
             this.services = services;
-            logger = services.GetRequiredService<ILogger<DiscordGateway>>();
+            logger = services.GetService<ILogger<DiscordGateway>>() ?? new Logger<DiscordGateway>(NullLoggerFactory.Instance);
             this.configuration = new GatewayConfiguration();
             configure(this.configuration);
 
@@ -72,6 +73,7 @@ namespace BasedCord.Gateway
             uribuilder.Query = $"v={API_VERSION}&encoding={ENCODING}";
             gatewayUrl = uribuilder.ToString();
             // TODO gateway url should not be hard-coded, we should ask the API what to connect to..
+            // TODO figure out a way to provide the gateway url to the gateway without creating a hard dependency on the rest client
 
             this.jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerOptions.Default)
             {

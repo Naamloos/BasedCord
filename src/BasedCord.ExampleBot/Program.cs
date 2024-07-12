@@ -44,7 +44,7 @@ namespace BasedCord.ExampleBot
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddLogging(); // atm this is required. I am looking into a way to not make a logger a HARD requirement
+                    services.AddLogging(); // I recommend hooking this if you want logs
 
                     services.AddDiscordGateway(x =>
                     {
