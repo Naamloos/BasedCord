@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BasedCord.ExampleBot
 {
+    /// <summary>
+    /// This Settings class is used to load data about the current Shard.
+    /// </summary>
     public record Settings
     {
         [JsonPropertyName("discord_token")]

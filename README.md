@@ -16,6 +16,8 @@ You are expected to build your own entities using the provided classes, and real
 
 TL;DR: This library is not at all beginner friendly, but provides a great deal of control, with the exception that Microsoft's hosting extensions and dependency injection are a requirement, not an optional feature.
 
+If you want a quick example of how the library works, take a look at the [Example Bot](https://github.com/Naamloos/BasedCord/tree/based/src/BasedCord.ExampleBot).
+
 ## Getting a development environment ready
 1. Dry scoop a shot of pre-workout and do 47 pushups
 2. Git clone the repository

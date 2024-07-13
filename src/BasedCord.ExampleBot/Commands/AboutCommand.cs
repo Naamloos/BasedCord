@@ -12,20 +12,24 @@ using System.Threading.Tasks;
 
 namespace BasedCord.ExampleBot.Commands
 {
+    // This command is a simple example of a command that sends an ephemeral message to the calling user.
     [Command("about", "Get information about the bot", dmPermission: true)]
     public class AboutCommand : ICommand
     {
         private DiscordRest restClient;
 
+        // Commands support dependency injection through constructor parameters.
         public AboutCommand(DiscordRest restClient)
         {
             this.restClient = restClient;
         }
 
+        // The InvokeCommand attribute is used to mark the method that will be called when the command is invoked.
+        // This is so subcommands can still be defined in the same class.
         [InvokeCommand]
         public async ValueTask InvokeAsync(CommandContext context)
         {
-            // Invoke command
+            // We use the injected rest client to send an ephemeral message back to the user.
             await restClient.CreateInteractionResponseAsync(context.EventData.Id, context.EventData.Token,
                 InteractionResponseType.ChannelMessageWithSource, new InteractionMessageResponse()
                 {
