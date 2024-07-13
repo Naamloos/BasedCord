@@ -17,6 +17,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging.Abstractions;
+using BasedCord.Gateway.Extensions;
 
 namespace BasedCord.Gateway
 {
@@ -58,13 +59,19 @@ namespace BasedCord.Gateway
         internal DiscordGateway(Action<GatewayConfiguration> configure, IServiceProvider services)
         {
             this.services = services;
+
+            // See if there's a logger registered, if not, create a null logger
             logger = services.GetService<ILogger<DiscordGateway>>() ?? new Logger<DiscordGateway>(NullLoggerFactory.Instance);
+
             this.configuration = new GatewayConfiguration();
             configure(this.configuration);
 
             gatewayCancellationTokenSource = new CancellationTokenSource();
 
             registerSubscribersInternal();
+            var extensions = services.GetService<IEnumerable<IExtension>>();
+            if(extensions != null)
+                registerExtensions(extensions);
 
             // Preparing base websocket uri
             var uribuilder = new UriBuilder(this.configuration.GatewayUrl);
@@ -74,6 +81,8 @@ namespace BasedCord.Gateway
             gatewayUrl = uribuilder.ToString();
             // TODO gateway url should not be hard-coded, we should ask the API what to connect to..
             // TODO figure out a way to provide the gateway url to the gateway without creating a hard dependency on the rest client
+            // note to self: perhaps I could create a new "IGatewayUriProvider" in the entities package that the gateway can use to get the gateway url.
+            // that way, there would still be no hard dependency between Rest and Gateway, but the gateway would still be able to get the gateway url through Rest.
 
             this.jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerOptions.Default)
             {
@@ -102,12 +111,29 @@ namespace BasedCord.Gateway
             }
         }
 
+        private void registerExtensions(IEnumerable<IExtension> extensions)
+        {
+            foreach(var extension in extensions)
+            {
+                extension.Register(this);
+            }
+        }
+
+        public void RegisterSubscriber<T>() where T : ISubscriber
+        {
+            RegisterSubscriber(typeof(T));
+        }
+
         public void RegisterSubscriber(Type subscriberType)
         {
             var constructors = subscriberType.GetConstructors();
             if (constructors.Count() != 1)
             {
                 throw new NotSupportedException($"Your subscriber of type {subscriberType} needs exactly 1 constructor! It has {constructors.Count()}!");
+            }
+            if(subscribers.Any(x => x.GetType() == subscriberType))
+            {
+                throw new NotSupportedException($"Subscriber of type {subscriberType} is already registered!");
             }
 
             var constructor = constructors[0];
@@ -126,6 +152,12 @@ namespace BasedCord.Gateway
             var activatedSubscriber = Activator.CreateInstance(subscriberType, qualifiedParameters) as ISubscriber;
             activatedSubscriber!.Gateway = this;
             subscribers.Add(activatedSubscriber);
+        }
+
+        public void UnregisterSubscriber<T>() where T : ISubscriber
+        {
+            subscribers.RemoveAll(x => x.GetType() == typeof(T));
+            // let GC do its thing
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -358,7 +390,7 @@ namespace BasedCord.Gateway
         {
             await Task.Yield();
 
-            // TODO source gen?? 
+            // TODO implement missing events
             switch (gatewayEvent.EventName)
             {
                 default:

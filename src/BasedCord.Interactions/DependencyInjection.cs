@@ -1,4 +1,5 @@
 ﻿using BasedCord.Gateway;
+using BasedCord.Gateway.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace BasedCord.Interactions
     {
         public static IServiceCollection AddInteractions(this IServiceCollection services, Action<InteractionConfiguration> configure)
         {
-            services.AddSingleton(serviceProvider => new InteractionExtension(configure, serviceProvider));
+            services.AddSingleton<IExtension, InteractionExtension>(serviceProvider => new InteractionExtension(configure, serviceProvider));
             return services;
         }
     }

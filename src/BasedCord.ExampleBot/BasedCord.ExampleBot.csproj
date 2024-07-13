@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BasedCord.Gateway\BasedCord.Gateway.csproj" />
+    <ProjectReference Include="..\BasedCord.Interactions\BasedCord.Interactions.csproj" />
     <ProjectReference Include="..\BasedCord.Rest\BasedCord.Rest.csproj" />
   </ItemGroup>
 

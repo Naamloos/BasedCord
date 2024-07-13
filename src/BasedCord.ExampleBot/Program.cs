@@ -1,11 +1,11 @@
 ﻿using BasedCord.ExampleBot.Events;
 using BasedCord.Gateway;
 using BasedCord.Gateway.EventData.Outgoing;
+using BasedCord.Interactions;
 using BasedCord.Rest;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace BasedCord.ExampleBot
@@ -62,6 +62,11 @@ namespace BasedCord.ExampleBot
                         };
 
                         x.Subscribe<ExampleSubscriber>();
+                    });
+
+                    services.AddInteractions(config =>
+                    {
+                        // so far nothing to configure
                     });
 
                     services.AddDiscordRest(x =>

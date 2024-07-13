@@ -2,6 +2,7 @@
 using BasedCord.Entities;
 using BasedCord.Gateway.EventData.Outgoing;
 using BasedCord.Gateway.Events;
+using BasedCord.Gateway.Extensions;
 
 namespace BasedCord.Gateway
 {
@@ -9,7 +10,6 @@ namespace BasedCord.Gateway
     {
         public Intents Intents { get; set; } = Intents.AllUnprivileged;
         public string GatewayUrl { get; set; } = "gateway.discord.gg";
-        public IServiceProvider Services { get; set; } = new ServiceCollection().BuildServiceProvider(); // placeholder dummy
         public Optional<Activity> Activity { get; set; } = Optional<Activity>.None;
 
         public string Token { get; set; } = "";
@@ -21,13 +21,6 @@ namespace BasedCord.Gateway
         {
             var type = typeof(T);
             subscribers.Add(type);
-        }
-
-        internal List<Type> extensions { get; set; } = new List<Type>();
-        public void UseExtension<T>() where T : BaseExtension
-        {
-            var type = typeof(T);
-            extensions.Add(type);
         }
     }
 }

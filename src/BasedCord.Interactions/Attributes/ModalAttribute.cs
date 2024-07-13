@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BasedCord.Gateway
+namespace BasedCord.Interactions.Attributes
 {
-    public abstract class BaseExtension
+    [AttributeUsage(AttributeTargets.Class)]
+    public class ModalAttribute : Attribute
     {
-        public abstract void Register(DiscordGateway gateway);
     }
 }
