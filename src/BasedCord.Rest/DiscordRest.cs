@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 namespace BasedCord.Rest
 {
     // TODO fix rate limit routes, I don't think they're correct yet
+
+    // top levels are channel, guild, webhook. Routes have only ONE top level resource
     public class DiscordRest
     {
         private DiscordRestConfiguration Configuration;
@@ -61,14 +63,14 @@ namespace BasedCord.Rest
         // TODO this sucks, properly implement. this is jsut here for "ayo it work" atm.
         public ValueTask<RestResponse<Message>> CreateMessageAsync(Snowflake channelId, CreateMessage content)
         {
-            string route = "channels/:channel_id/messages";
+            string route = $"channels/{channelId}/messages";
             string url = $"channels/{channelId}/messages";
             return makeRequestAsync<Message>(HttpMethod.Post, url, route, content);
         }
 
         public ValueTask<RestResponse<Message>> ModifyMessageAsync(Snowflake channelId, Snowflake messageId, CreateMessage content)
         {
-            string route = "channels/:channel_id/messages/:message_id";
+            string route = $"channels/{channelId}/messages/:message_id";
             string url = $"channels/{channelId}/messages/{messageId}";
             return makeRequestAsync<Message>(HttpMethod.Patch, url, route, content);
         }
@@ -112,7 +114,7 @@ namespace BasedCord.Rest
 
         public ValueTask<RestResponse<Guild>> GetGuildAsync(Snowflake guildId, bool withCounts = false)
         {
-            string route = "guilds/:guild_id";
+            string route = $"guilds/{guildId}";
             string url = $"guilds/{guildId}?with_counts={withCounts}";
 
             return makeRequestAsync<Guild>(HttpMethod.Get, url, route);
@@ -121,7 +123,7 @@ namespace BasedCord.Rest
         public ValueTask<RestResponse<object>> CreateGuildBanAsync(Snowflake guildId, Snowflake userId, 
             int? delete_message_days = null, int? delete_message_seconds = null)
         {
-            string route = "guilds/:guild_id/bans/:user_id";
+            string route = $"guilds/{guildId}/bans/:user_id";
             string url = $"guilds/{guildId}/bans/{userId}";
 
             return makeRequestAsync<object>(HttpMethod.Put, url, route, new CreateGuildBan()
